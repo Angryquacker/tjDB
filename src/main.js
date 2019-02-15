@@ -59,6 +59,16 @@ class tjdb {
         //Call createTable method in tables.js and set the result equal to the class var db
         this.db = tables.createTable(this.db, tableName, columns);
     }
+
+    /*
+     *  Method: deleteTable - deletes an existing table
+     *  @Param tableName - Name of table to be deleted <String>
+     *  Returns - None
+     */
+    deleteTable(tableName) {
+        //Call deleteTable Method in tables.js and set the result equal to the class var db
+        this.db = tables.deleteTable(this.db, tableName);
+    }
 }
 
 module.exports = tjdb;
