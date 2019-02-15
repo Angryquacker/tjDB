@@ -29,5 +29,17 @@ describe("tjdb", () => {
 
             assert.equal(data, expected);
         });
+
+        it("Should delete a table", () => {
+            //Delete the table
+            db.deleteTable("example");
+            db.commit();
+
+            //Read the file and create an expected output
+            let data = fs.readFileSync("test.tjdb", "utf-8");
+            let expected = `{}`;
+
+            assert.equal(data, expected);
+        });
     });
 });
