@@ -9,7 +9,9 @@
   },
   "author": "TJ",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "prettyjson": "^1.2.1"
+  },
   "devDependencies": {
     "mocha": "^5.2.0"
   }
