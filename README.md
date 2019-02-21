@@ -13,14 +13,14 @@
 - To **create** a table use method `createTable(tableName, columns)` - tableName: Name of table to create, columns: Array of columns to create
  - Ex. `db.createTable("test", ["col1", "col2"]);`
 
--To **delete** a table use method `deleteTable(tableName)` - tableName: Name of the table to delete
- - Ex. `db.deleteTable("test");`
+- To **delete** a table use method `deleteTable(tableName)` - tableName: Name of the table to delete
+   - Ex. `db.deleteTable("test");`
 
 ## Inserting Data
--To insert a **single** row, use method `insertSingle(tableName, values)` - tableName: Name of table to insert the row into, values: An array with the same number of items as the number of columns
+- To insert a **single** row, use method `insertSingle(tableName, values)` - tableName: Name of table to insert the row into, values: An array with the same number of items as the number of columns
  - Ex. `db.insertSingle("test", [1, 2]);`
 
--To Insert **multiple** rows, use mehtod `insertMultiple(tableName, values)` - tableName: Name of table to insert the rows into, values: An array of arrays each containing values
+- To Insert **multiple** rows, use mehtod `insertMultiple(tableName, values)` - tableName: Name of table to insert the rows into, values: An array of arrays each containing values
  - Ex. `db.insertMultiple("test", [[3, 4], [5, 6]]);`
  - The current DB should look like this: `{"test": "col1": [1, 3, 5], "col2": [2, 4, 6]}`
 
