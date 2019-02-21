@@ -128,9 +128,43 @@ class tjdb {
         update.insertColumn(this.db, tableName, colName);
     }
 
+    /*
+     * Method: updateValue - Changes a single value in the DB
+     * @Param tableName - Name of table to look in <String>
+     * @Param colName - Name of column to look in <String>
+     * @Param value - Value to change <ANY>
+     * @Param newValue - Value to replace the orginal one with <ANY>
+     * Similar to SQL UPDATE tableName SET colName = newValue WHERE colName = value
+     * Returns - None
+     */
+    updateValue(tableName, colName, value, newValue) {
+        //Call updateValue method from update.js
+        this.db = update.updateValue(this.db, tableName, colName, value, newValue);
+    }
 
+    /*
+     * Method: normalize - Fills in any gaps in the DB with a sepecific value, or null if left blank
+     * @Param tableName - name of table to normalize (Will do the entire db IF NOT SPECIFIED) <String>
+     * @Param newValue - Value passed by the user to fill in the gaps with (Defaults to null) <ANY>
+     * Returns - None
+     */
+    normalize(newValue, tableName) {
+        //Call normalize method from update.js
+        this.db = update.normalize(this.db, tableName, newValue);
+    }
 
-
+    /*
+     * Method: deleteValue - Delete a single value in the db
+     * @Param tableName - Name of table to look in <String>
+     * @Param colName - Name of column to look in <String>
+     * @Param value - Value to delete <ANY>
+     * @Param completeDeletion - Decide wether to delete the whole value or replace it with null (true = complete delete, false = replace with null) [Default = false] <Boolean>
+     * Returns - None
+     */
+    deleteValue(tableName, colName, value, completeDeletion) {
+        //Call deleteValue from update.js and set it equal to the DB object
+        this.db = update.deleteValue(this.db, tableName, colName, value, completeDeletion);
+    }
 
     /*
      * Method: getAll - Returns the entire DB
@@ -174,6 +208,17 @@ class tjdb {
     getSingle(tableName, returnColName, options) {
         //Call getSingle method from get.js
         return get.getSingle(this.db, tableName, returnColName, options);
+    }
+
+    /*
+     * Method: getRow - Returns a row of data
+     * @Param tableName - Name of table to look in <String>
+     * @Param location - <JSON>
+     * Returns - Array of data results
+     */
+    getRow(tableName, location) {
+        //Call getRow method from get.js
+        return get.getRow(this.db, tableName, location);
     }
 }
 

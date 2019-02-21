@@ -95,13 +95,32 @@ describe("tjdb", () => {
 
             assert.equal(data, expected);
         });
+
+        it("Should change a single value", () => {
+            //Change a single value 
+            db.updateValue("example", "col1", 1, 10);
+            db.commit();
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[10,3,5,7],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
+
+            assert.equal(data, expected);
+        });
+
+        it("Should delete a single value", () => {
+            //Delete the value -> False is optional
+            db.deleteValue("example", "col1", 7, false);
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
+
+            assert.equal(data, expected);
+        });
     });
 
     describe("get.js", () => {
         it("Should return the entire DB", () => {
             //Get the  DB
             let data = JSON.stringify(db.getAll());
-            let expected = `{"example":{"col1":[1,3,5,7],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
+            let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
 
             assert.equal(data, expected);
         });
@@ -117,17 +136,49 @@ describe("tjdb", () => {
         it("Should return all data in a column", () => {
             //Get the column data
             let data = JSON.stringify(db.getColumn("example", "col1"));
-            let expected = `[1,3,5,7]`;
+            let expected = `[10,3,5,null]`;
 
             assert.equal(data, expected);
         });
 
         it("Should return a single item", () => {
             //Get a single item
-            let data = db.getSingle("example", "col2", { name: "col1", value: 1 });
+            let data = db.getSingle("example", "col2", { name: "col1", value: 10 });
             let expected = 2;
 
             assert.equal(data, expected);
+        });
+
+        it("Should return a row", () => {
+            //Get a row
+            let data = db.getRow("example", { name: "col1", value: 10 }).toString();
+            let expected = "10,2";
+
+            assert.equal(data, expected);
+        });
+    });
+
+    describe("Extra Functions", () => {
+        it("Should normalize the DB", () => {
+            //Normalize the DB
+            db.normalize();
+            db.commit();
+
+            //Get the whole db
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[null,null,null,null]}}`;
+
+            assert.equal(data, expected);
+        });
+
+        it("Should visualize the DB", () => {
+            let expected = false;
+
+            if (db.visualize() !== JSON.stringify(db.getAll())) {
+                expected = true;
+            }
+
+            assert.equal(true, expected);
         });
     });
 

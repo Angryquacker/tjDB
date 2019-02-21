@@ -110,11 +110,47 @@ class get {
      * Method: getRow - Returns a row of data in the DB
      * @Param db - DB Object passed by main.js <JSON>
      * @Param tableName - Name of table to look in <String>
-     * @Param location - Object dicating where the column is <JSON>
+     * @Param location - Object dicating where the column is <JSON> Ex. { name: "colName", value: 1 } (name = column name, value = column value)
+     * Similar to SQL's SELECT * FROM tableName WHERE location.name = location.value
      * Returns - array containing the row data
      */
     static getRow(db, tableName, location) {
         let returnArray = [];
+
+        //Make sure the table and column exist
+        if (!db[tableName] || !db[tableName][location.name]) {
+            throw new Error("Invalid or non-existent table/column");
+            return;
+        }
+
+        //Make sure all columns are of equal length
+        Object.keys(db[tableName]).forEach((col) => {
+            if (db[tableName][col].length < db[tableName][location.name].length) {
+                let neededLen = db[tableName][location.name].length - db[tableName][col].length;
+
+                for (let i = 0; i < neededLen; i++) {
+                    db[tableName][col].unshift(null);
+                }
+            }
+        });
+
+        //Get the index of the wanted value in location
+        let indexOfSelect = db[tableName][location.name].indexOf(location.value);
+
+        //If the item is undefined throw an error
+        if (indexOfSelect == -1) {
+            throw new Error("Invalid value declared in location paramaters");
+            return;
+        }
+
+        //Push each item in each column into the array
+        Object.keys(db[tableName]).forEach((col) => {
+            returnArray.push(db[tableName][col][indexOfSelect]);
+        });
+
+
+        //Return the array
+        return returnArray;
     }
 }
 
