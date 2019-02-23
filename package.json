@@ -1,16 +1,16 @@
 {
   "name": "tjdb",
   "version": "2.0.0",
-  "description": "",
+  "description": "A lightweight, scalable, and easy to use DB program",
   "main": "./src/main.js",
   "scripts": {
-    "start": "node src/main.js",
     "test": "mocha test/test.js"
   },
   "author": "TJ",
   "license": "MIT",
   "dependencies": {
-    "prettyjson": "^1.2.1"
+    "prettyjson": "^1.2.1",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "mocha": "^5.2.0"
