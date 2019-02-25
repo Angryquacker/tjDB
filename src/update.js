@@ -119,6 +119,40 @@ class update {
     }
 
     /*
+     * Method: deleteRow - Delete a row in a table
+     * @Param db - DB Object passed by main.js <JSON>
+     * @Param tableName - Name of table to look in <String>
+     * @Param options - Object dictating where to look <JSON> Ex. { name: "colName", value: 1  }
+     * Returns - DB Object
+     */
+    static deleteRow(db, tableName, options) {
+        //Make sure the table and column exists
+        if (!tableName || !options.name) {
+            throw new Error("Invalid or non-existent table/column");
+            return db;
+        }
+
+        //Make sure all columns are of the same length
+        db = this.normalize(db, null, tableName);
+
+        //Get the index of the specified value
+        let index = db[tableName][options.name].indexOf(options.value);
+
+        if (index === -1) {
+            throw new Error("Invalid value declared in the options paramater");
+            return db;
+        }
+
+        Object.keys(db[tableName]).forEach((col) => {
+            //Delete the value from each column
+            db[tableName][col].splice(index, 1);
+        });
+
+        //Return the db
+        return db;
+    }
+
+    /*
      * Method: normalize - Fills in any gaps in the DB with a sepecific value, or null if left blank
      * @Param db - DB object passed by main.js <JSON>
      * @Param tableName - name of table to normalize (Will do the entire db IF NOT SPECIFIED) <String>

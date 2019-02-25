@@ -167,6 +167,17 @@ class tjdb {
     }
 
     /*
+     * Method: deleteRow - Delete a row in a table
+     * @Param tableName - Name of table to look in <String>
+     * @Param options - Object dictating where to look <JSON> Ex. { name: "colName", value: 1  }
+     * Returns - None
+     */ 
+    deleteRow(tableName, location) {
+        //Call deleteRow method from update.js and set it equal to the DB Object
+        this.db = update.deleteRow(this.db, tableName, location);
+    }
+
+    /*
      * Method: getAll - Returns the entire DB
      * @Param - None
      * Returns - DB Object in JSON Form

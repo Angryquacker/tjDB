@@ -7,7 +7,7 @@ const tjdb = require('../src/main.js');
 //Create the db
 var db = new tjdb("test.tjdb");
 
-describe("tjdb", () => {
+describe("TjDB", () => {
     describe("main.js", () => {
         it("Should create a new DB file", () => {
             //Check to see if a new file was created
@@ -114,10 +114,27 @@ describe("tjdb", () => {
 
             assert.equal(data, expected);
         });
+
+        it("Should delete a row", () => {
+            //Create a new table with two columns, and insert two rows
+            db.createTable("deleteTest", ["col", "du"]);
+            db.insertMultiple("deleteTest", [[1, 2], [3, 4]]);
+            db.deleteRow("deleteTest", { name: "col", value: 1 });
+            db.commit();
+
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]},"deleteTest":{"col":[3],"du":[4]}}`;
+
+            assert.equal(data, expected);
+        });
     });
 
     describe("get.js", () => {
         it("Should return the entire DB", () => {
+            //Delete the table added previously
+            db.deleteTable("deleteTest");
+            db.commit();
+
             //Get the  DB
             let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
@@ -188,4 +205,12 @@ describe("tjdb", () => {
             if (err) throw err;
         });
     })
+});
+
+describe("TjDB Clusters", () => {
+    describe("cluster.js", () => {
+        it("This is just a place for future features...", () => {
+            
+        });
+    });
 });
