@@ -29,7 +29,7 @@ class tjdb {
 
         //Check if the file exists, if so read the data then parse it and set it to the class var db
         //Else if it doesn't exists create the file and write a basic JSON object to it, set class var db = {}
-        if (fs.exists(name)) {
+        if (fs.existsSync(name)) {
             this.db = JSON.parse(fs.readFileSync(name, 'utf-8'));
         }
         else {

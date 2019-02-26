@@ -1,7 +1,7 @@
 {
   "name": "tjdb",
-  "version": "2.0.0",
-  "description": "",
+  "version": "2.0.0-0",
+  "description": "TjDB - A Lightweight and easy to use database program",
   "main": "./src/main.js",
   "scripts": {
     "test": "mocha test/test.js"
@@ -12,6 +12,16 @@
     "prettyjson": "^1.2.1",
     "request": "^2.88.0"
   },
+  "keywords": [
+    "db",
+    "database",
+    "lightweight db",
+    "lightweight database",
+    "simple",
+    "easy to use",
+    "nosql"
+  ],
+  "repository": "https://github.com/Angryquacker/tjdb",
   "devDependencies": {
     "mocha": "^5.2.0"
   }
