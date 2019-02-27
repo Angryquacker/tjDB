@@ -1,4 +1,4 @@
-## New Features
+## Future Features
 
 ### Essential Features
 - Add autoupdate
