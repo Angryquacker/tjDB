@@ -21,7 +21,7 @@ describe("TjDB", () => {
         it("Should create a new table", () => {
             //Create a new table with two columns
             db.createTable("example", ["col1", "col2"]);
-            db.commit();
+            
 
             //Read the file and create an expected output
             let data = fs.readFileSync("test.tjdb", "utf-8");
@@ -33,10 +33,10 @@ describe("TjDB", () => {
         it("Should delete a table", () => {
             //Delete the table
             db.deleteTable("example");
-            db.commit();
+            
 
             //Read the file and create an expected output
-            let data = fs.readFileSync("test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{}`;
 
             assert.equal(data, expected);
@@ -48,10 +48,10 @@ describe("TjDB", () => {
             //Create a new table and insert a single row
             db.createTable("example", ["col1", "col2"]);
             db.insertSingle("example", [1, 2]);
-            db.commit();
+            
 
             //Read the file and create an expected output
-            let data = fs.readFileSync("./test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[1],"col2":[2]}}`;
 
             assert.equal(data, expected);
@@ -60,10 +60,10 @@ describe("TjDB", () => {
         it("Should insert three rows", () => {
             //Insert three rows
             db.insertMultiple("example", [[3, 4], [5, 6], [7, 8]]);
-            db.commit();
+            
 
             //Read the file and create an expected output
-            let data = fs.readFileSync("./test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[1,3,5,7],"col2":[2,4,6,8]}}`;
 
             assert.equal(data, expected);
@@ -75,10 +75,10 @@ describe("TjDB", () => {
             //Create a new table then delete a column inside of it
             db.createTable("temp", ["col"]);
             db.deleteColumn("temp", "col");
-            db.commit();
+            
 
             //Read the file and create an expected output
-            let data = fs.readFileSync("./test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[1,3,5,7],"col2":[2,4,6,8]},"temp":{}}`;
 
             assert.equal(data, expected);
@@ -87,10 +87,10 @@ describe("TjDB", () => {
         it("Should insert a new column", () => {
             //Insert a new column
             db.insertColumn("temp", "col");
-            db.commit();
+            
 
             //Read the file and create an expected ouput
-            let data = fs.readFileSync("./test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[1,3,5,7],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
 
             assert.equal(data, expected);
@@ -99,7 +99,7 @@ describe("TjDB", () => {
         it("Should change a single value", () => {
             //Change a single value 
             db.updateValue("example", "col1", 1, 10);
-            db.commit();
+            
             let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[10,3,5,7],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
 
@@ -120,7 +120,7 @@ describe("TjDB", () => {
             db.createTable("deleteTest", ["col", "du"]);
             db.insertMultiple("deleteTest", [[1, 2], [3, 4]]);
             db.deleteRow("deleteTest", { name: "col", value: 1 });
-            db.commit();
+            
 
             let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]},"deleteTest":{"col":[3],"du":[4]}}`;
@@ -133,7 +133,7 @@ describe("TjDB", () => {
         it("Should return the entire DB", () => {
             //Delete the table added previously
             db.deleteTable("deleteTest");
-            db.commit();
+            
 
             //Get the  DB
             let data = JSON.stringify(db.getAll());
@@ -179,7 +179,7 @@ describe("TjDB", () => {
         it("Should normalize the DB", () => {
             //Normalize the DB
             db.normalize();
-            db.commit();
+            
 
             //Get the whole db
             let data = JSON.stringify(db.getAll());
@@ -198,19 +198,19 @@ describe("TjDB", () => {
             assert.equal(true, expected);
         });
     });
-
-    after(() => {
-        //Delete the DB File
-        fs.unlink("./test.tjdb", (err) => {
-            if (err) throw err;
-        });
-    })
 });
 
 describe("TjDB Clusters", () => {
     describe("cluster.js", () => {
         it("This is just a place for future features...", () => {
-            
+
+        });
+    });
+
+    after(() => {
+        //Delete the DB File
+        fs.unlink("./test.tjdb", (err) => {
+            if (err) throw err;
         });
     });
 });

@@ -1,5 +1,7 @@
 # TjDB - Lightweight and easy to use database program
 
+### Version 2.0.1 - Now features autosaving
+
 ## Creating & Saving the DB
 - To create a DB you first have to require the tjdb package like so:
 	- `const tjdb = require("tjdb");`
@@ -7,7 +9,7 @@
 - Next, create the db variable by initizlizing the tjdb object - The one paramater is the DB name (**Must end in .tjdb**)
 	- `var db = new tjdb("test.tjdb");`
 
-- Finally, to **SAVE** the db use method `db.commit();` **THIS IS NEEDED TO SAVE THE DB TO THE FILE (DO NOT FORGET!)**
+- Finally, the database automatically saves, so there is no need to save manually
 
 ## Tables
 - To **create** a table use method `createTable(tableName, columns)` - tableName: Name of table to create, columns: Array of columns to create
@@ -19,6 +21,7 @@
 ## Inserting Data
 - To insert a **single** row, use method `insertSingle(tableName, values)` - tableName: Name of table to insert the row into, values: An array with the same number of items as the number of columns
 	- Ex. `db.insertSingle("test", [1, 2]);`
+	- Please note, it is **much** more efficent to use `insertMultiple()` when inserting large amounts of data
 
 - To Insert **multiple** rows, use mehtod `insertMultiple(tableName, values)` - tableName: Name of table to insert the rows into, values: An array of arrays each containing values
 	- Ex. `db.insertMultiple("test", [[3, 4], [5, 6]]);`

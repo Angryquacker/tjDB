@@ -1,6 +1,6 @@
 {
   "name": "tjdb",
-  "version": "2.0.0-0",
+  "version": "2.0.1",
   "description": "TjDB - A Lightweight and easy to use database program",
   "main": "./src/main.js",
   "scripts": {

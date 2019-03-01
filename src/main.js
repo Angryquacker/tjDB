@@ -30,7 +30,9 @@ class tjdb {
         //Check if the file exists, if so read the data then parse it and set it to the class var db
         //Else if it doesn't exists create the file and write a basic JSON object to it, set class var db = {}
         if (fs.existsSync(name)) {
-            this.db = JSON.parse(fs.readFileSync(name, 'utf-8'));
+            let data = JSON.parse(fs.readFileSync(name, 'utf-8'));
+
+            this.db = data;
         }
         else {
             this.db = {};
@@ -39,6 +41,7 @@ class tjdb {
             fs.writeFileSync(name, JSON.stringify(this.db));
         }
 
+        //Set the class var
         this.fileName = name;
     }
 
@@ -62,6 +65,7 @@ class tjdb {
     createTable(tableName, columns) {
         //Call createTable method in tables.js and set the result equal to the class var db
         this.db = tables.createTable(this.db, tableName, columns);
+        this.commit();
     }
 
     /*
@@ -72,6 +76,7 @@ class tjdb {
     deleteTable(tableName) {
         //Call deleteTable Method in tables.js and set the result equal to the class var db
         this.db = tables.deleteTable(this.db, tableName);
+        this.commit();
     }
 
     /*
@@ -83,6 +88,7 @@ class tjdb {
     insertSingle(tableName, values) {
         //Call insertSingle method from insert.js, and set the result equal to the class var db
         this.db = insert.insertSingle(this.db, tableName, values);
+        this.commit();
     }
 
     /*
@@ -94,6 +100,7 @@ class tjdb {
     insertMultiple(tableName, values) {
         //Call insertMultiple method from insert.js and set the result equal to the class var db
         this.db = insert.insertMultiple(this.db, tableName, values);
+        this.commit();
     }
 
     /*
@@ -115,6 +122,7 @@ class tjdb {
     deleteColumn(tableName, colName) {
         //Call deleteColumn method from update.js
         update.deleteColumn(this.db, tableName, colName);
+        this.commit();
     }
 
     /*
@@ -126,6 +134,7 @@ class tjdb {
     insertColumn(tableName, colName) {
         //Call insertColumn method from update.js
         update.insertColumn(this.db, tableName, colName);
+        this.commit();
     }
 
     /*
@@ -140,6 +149,7 @@ class tjdb {
     updateValue(tableName, colName, value, newValue) {
         //Call updateValue method from update.js
         this.db = update.updateValue(this.db, tableName, colName, value, newValue);
+        this.commit();
     }
 
     /*
@@ -151,6 +161,7 @@ class tjdb {
     normalize(newValue, tableName) {
         //Call normalize method from update.js
         this.db = update.normalize(this.db, tableName, newValue);
+        this.commit();
     }
 
     /*
@@ -164,6 +175,7 @@ class tjdb {
     deleteValue(tableName, colName, value, completeDeletion) {
         //Call deleteValue from update.js and set it equal to the DB object
         this.db = update.deleteValue(this.db, tableName, colName, value, completeDeletion);
+        this.commit();
     }
 
     /*
@@ -175,6 +187,7 @@ class tjdb {
     deleteRow(tableName, location) {
         //Call deleteRow method from update.js and set it equal to the DB Object
         this.db = update.deleteRow(this.db, tableName, location);
+        this.commit();
     }
 
     /*
