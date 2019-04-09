@@ -6,3 +6,4 @@
 
 ### Wanted Features
 - Add DB Clusters: ❌
+- Add Data Types: ✓
