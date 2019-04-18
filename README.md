@@ -1,6 +1,6 @@
 # TjDB - Lightweight and easy to use database program
 
-### Version 2.0.1 - Now features autosaving
+### Version 2.1.0 - Now features data types
 
 ## Creating & Saving the DB
 - To create a DB you first have to require the tjdb package like so:
@@ -14,6 +14,12 @@
 ## Tables
 - To **create** a table use method `createTable(tableName, columns)` - tableName: Name of table to create, columns: Array of columns to create
 	- Ex. `db.createTable("test", ["col1", "col2"]);`
+
+  **Note the colon character ":" is forebidden in column names**
+
+  To add **data types** change the column name to include one of the valid types seen here: ["number", "string", "boolean", "null", "symbol", "function", "object", "array"];
+	- Ex. `db.createTable("test", ["col1:number", "col2:string"]);
+	- All columns that do not include data types will accept anything
 
 - To **delete** a table use method `deleteTable(tableName)` - tableName: Name of the table to delete
 	- Ex. `db.deleteTable("test");`

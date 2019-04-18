@@ -1,16 +1,15 @@
 {
   "name": "tjdb",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "TjDB - A Lightweight and easy to use database program",
   "main": "./src/main.js",
   "scripts": {
     "test": "mocha test/test.js"
   },
-  "author": "TJ",
+  "author": "Travis Hahn",
   "license": "MIT",
   "dependencies": {
-    "prettyjson": "^1.2.1",
-    "request": "^2.88.0"
+    "prettyjson": "^1.2.1"
   },
   "keywords": [
     "db",

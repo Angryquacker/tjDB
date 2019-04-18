@@ -5,7 +5,7 @@ const fs = require('fs');
 const tjdb = require('../src/main.js');
 
 //Create the db
-var db = new tjdb("test.tjdb");
+let db = new tjdb("test.tjdb");
 
 describe("TjDB", () => {
     describe("main.js", () => {
@@ -24,16 +24,15 @@ describe("TjDB", () => {
             
 
             //Read the file and create an expected output
-            let data = fs.readFileSync("test.tjdb", "utf-8");
+            let data = JSON.stringify(db.getAll());
             let expected = `{"example":{"col1":[],"col2":[]}}`;
 
             assert.equal(data, expected);
         });
 
         it("Should delete a table", () => {
-            //Delete the table
+            //Delete the tables
             db.deleteTable("example");
-            
 
             //Read the file and create an expected output
             let data = JSON.stringify(db.getAll());
@@ -106,7 +105,20 @@ describe("TjDB", () => {
             assert.equal(data, expected);
         });
 
+        it("Should change a value bassed on a given location", () => {
+            //Update the value
+            db.updateValueSpecific("example", "col1", 11, { name: "col2", value: 2 });
+
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[11,3,5,7],"col2":[2,4,6,8]},"temp":{"col":[]}}`;
+
+            assert.equal(data, expected);
+        });
+
         it("Should delete a single value", () => {
+            //Change the value back
+            db.updateValue("example", "col1", 11, 10);
+
             //Delete the value -> False is optional
             db.deleteValue("example", "col1", 7, false);
             let data = JSON.stringify(db.getAll());
@@ -175,8 +187,63 @@ describe("TjDB", () => {
         });
     });
 
+    describe("Type Tests", () => {
+        it("Should create a new table with type specified columns", () => {
+            //Create the table
+            db.createTable("types", ["test:string", "example:boolean"]);
+
+            let data = JSON.stringify(db.getAll());
+            let expected = `{"example":{"col1":[10,3,5,null],"col2":[2,4,6,8]},"temp":{"col":[]},"types":{"test:string":[],"example:boolean":[]}}`;
+
+            assert.equal(data, expected);
+        });
+
+        it("Should insert a single row of type restricted data", () => {
+            //Insert a single row
+            db.insertSingle("types", ["yo", true]);
+
+            let data = JSON.stringify(db.getAll());
+            let expected = JSON.stringify({ "example": { "col1": [10, 3, 5, null], "col2": [2, 4, 6, 8] }, "temp": { "col": [] }, "types": { "test:string": ["yo"], "example:boolean": [true] } });
+
+            assert.equal(data, expected);
+        });
+
+        it("Should insert three rows of type restriced data", () => {
+            //Insert three rows
+            db.insertMultiple("types", [["true", true], ["false", false], ["maybe", true]]);
+
+            let data = JSON.stringify(db.getAll());
+            let expected = JSON.stringify({ "example": { "col1": [10, 3, 5, null], "col2": [2, 4, 6, 8] }, "temp": { "col": [] }, "types": { "test:string": ["yo", "true", "false", "maybe"], "example:boolean": [true, true, false, true] } });
+
+            assert.equal(data, expected);
+        });
+
+        it("Should update a single value with type constraints", () => {
+            //Update the value
+            db.updateValue("types", "example:boolean", true, false);
+
+            let data = JSON.stringify(db.getAll());
+            let expected = JSON.stringify({ "example": { "col1": [10, 3, 5, null], "col2": [2, 4, 6, 8] }, "temp": { "col": [] }, "types": { "test:string": ["yo", "true", "false", "maybe"], "example:boolean": [false, true, false, true] } });
+
+            assert.equal(data, expected);
+        });
+
+        it("Should update a value based on a location with type constraints", () => {
+            //Update the value
+            db.updateValueSpecific("types", "test:string", "but why", { name: "example:boolean", value: false });
+
+            let data = JSON.stringify(db.getAll());
+            let expected = JSON.stringify({ "example": { "col1": [10, 3, 5, null], "col2": [2, 4, 6, 8] }, "temp": { "col": [] }, "types": { "test:string": ["but why", "true", "false", "maybe"], "example:boolean": [false, true, false, true] } });
+
+            assert.equal(data, expected);
+        });
+    });
+
     describe("Extra Functions", () => {
         it("Should normalize the DB", () => {
+            //Delete the type db used previously
+            db.deleteTable("types");
+
             //Normalize the DB
             db.normalize();
             
@@ -203,7 +270,7 @@ describe("TjDB", () => {
 describe("TjDB Clusters", () => {
     describe("cluster.js", () => {
         it("This is just a place for future features...", () => {
-
+            assert.equal(true, true);
         });
     });
 

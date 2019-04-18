@@ -2,10 +2,10 @@ const fs = require('fs');
 
 //Require all other modules
 const tables = require('./tables.js');
-const insert = require('./insert.js');
-const visual = require('./visualize.js');
-const update = require('./update.js');
-const get = require('./get.js');
+const insert = require('./operations/insert.js');
+const visual = require('./utils/visualize.js');
+const update = require('./operations/update.js');
+const get = require('./operations/get.js');
 
 /*
  * Class Variables
@@ -24,7 +24,6 @@ class tjdb {
 
         if (extension !== 'tjdb') {
             throw new Error("Invalid File Extension, Must be .tjdb");
-            return;
         }
 
         //Check if the file exists, if so read the data then parse it and set it to the class var db
@@ -149,6 +148,21 @@ class tjdb {
     updateValue(tableName, colName, value, newValue) {
         //Call updateValue method from update.js
         this.db = update.updateValue(this.db, tableName, colName, value, newValue);
+        this.commit();
+    }
+
+    /*
+     * Method: updateValueSpecific - Change a single value based a specific parmaters
+     * @Param tableName - Name of table to look in <String>
+     * @Param colName - Name of column to look in <String>
+     * @Param newValue - Value to replace the original one with <ANY>
+     * @Param location - Object dictating where to look Ex. { name: "exam", value: 2 } <JSON> 
+     * Similar to SQL's UPDATE tableName set colName = newValue WHERE location.name = location.value
+     * Returns - None
+     */
+    updateValueSpecific(tableName, colName, newValue, location) {
+        //Call updateValueSpecific from update.js
+        this.db = update.updateValueSpecific(this.db, tableName, colName, newValue, location);
         this.commit();
     }
 
