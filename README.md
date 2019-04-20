@@ -15,10 +15,10 @@
 - To **create** a table use method `createTable(tableName, columns)` - tableName: Name of table to create, columns: Array of columns to create
 	- Ex. `db.createTable("test", ["col1", "col2"]);`
 
-  **Note the colon character ":" is forebidden in column names**
+  **Note the colon character ":" is forebidden in column names EXCEPT WHEN DECLARING DATA TYPES**
 
-  To add **data types** change the column name to include one of the valid types seen here: ["number", "string", "boolean", "null", "symbol", "function", "object", "array"];
-	- Ex. `db.createTable("test", ["col1:number", "col2:string"]);
+- To add **data types** change the column name to include one of the valid types seen here: ["number", "string", "boolean", "null", "symbol", "function", "object", "array"];
+	- Ex. `db.createTable("test", ["col1:number", "col2:string"]);`
 	- All columns that do not include data types will accept anything
 
 - To **delete** a table use method `deleteTable(tableName)` - tableName: Name of the table to delete
